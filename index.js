@@ -15,9 +15,21 @@ app.get('/', (req, res) => {
 });
 
 app.post('/register', (req, res) => {
-    let userData = req.body.data;
+    let userData = req.body;
+    
+    for (let {username, password} of users){
+        if (username === userData.username){
+            res.send("User already exists!");
+            return;
+        }
+    }
+
     users.push(userData);
     res.send("Successfully registered!");
+});
+
+app.get('/get-all-users', (req, res) => {
+    res.json(users);
 })
 
 app.listen(port);
